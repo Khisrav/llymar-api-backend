@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -37,4 +38,4 @@ Route::get('/items', [ItemController::class, 'index'])->middleware('auth:sanctum
 
 Route::get('/user', [UserController::class, 'index'])->middleware('auth:sanctum');
 
-Route::post('/order', [OrderCon])
+Route::post('/order', [OrderController::class, 'store'])->middleware('auth:sanctum');
