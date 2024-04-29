@@ -1,0 +1,1 @@
+import{H as e,i as t}from"./HeaderLayout-DQsp0aWV.js";import{_ as a,c as r,o as n,r as s}from"./index-DLEFopRY.js";const c={components:{HeaderLayout:e},data(){return{}},mounted(){t()}};function p(_,m,d,i,u,f){const o=s("HeaderLayout");return n(),r(o)}const $=a(c,[["render",p]]);export{$ as default};
