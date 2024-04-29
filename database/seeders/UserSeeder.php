@@ -21,5 +21,13 @@ class UserSeeder extends Seeder
             'phone' => '79876543210',
             'password' => bcrypt('password'),
         ]);
+
+        User::factory()->create([
+            'name' => 'Глозштейн Юрий Манукянц',
+            'email' => 'test@llymar.ru',
+            'company' => 'Gazprom',
+            'phone' => '79876543211',
+            'password' => bcrypt('password'),
+        ]);
     }
 }
