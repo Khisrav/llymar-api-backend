@@ -19,6 +19,10 @@ class ItemResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Доп. товары';
+    protected static ?string $title = 'Доп. товары';
+    protected static ?string $heading = 'Доп. товары';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -26,15 +30,15 @@ class ItemResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('img')
-                    ->maxLength(255),
+                // Forms\Components\TextInput::make('img')
+                //     ->maxLength(255),
                 Forms\Components\TextInput::make('unit')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('₽'),
                 Forms\Components\TextInput::make('vendor_code')
                     ->required()
                     ->numeric(),
@@ -46,17 +50,21 @@ class ItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('img')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Наименование'),
+                // Tables\Columns\TextColumn::make('img')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('unit')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Ед. изм.'),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
+                    ->money('RUB')
+                    ->sortable()
+                    ->label('Цена'),
                 Tables\Columns\TextColumn::make('vendor_code')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Артикул'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -70,6 +78,7 @@ class ItemResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

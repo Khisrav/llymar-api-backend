@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function store(Request $request) {
+        return $request;
         $formFields = $request->validate([
             'material_type' => 'required',
             'status' => 'required',

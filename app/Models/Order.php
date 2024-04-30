@@ -13,7 +13,7 @@ class Order extends Model
         'user_id',
         'material_type',
         'status',
-        'total_price'
+        'total_price',
     ];
 
     public function user() {
