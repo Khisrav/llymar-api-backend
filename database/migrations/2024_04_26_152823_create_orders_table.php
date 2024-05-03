@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('material_type');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->integer('total_price');
             $table->timestamps();
         });

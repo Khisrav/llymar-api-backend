@@ -11,4 +11,8 @@ class UserController extends Controller
     public function index() {
         return Auth::user();
     }
+
+    public function update(Request $request) {
+        return $request;
+    }
 }

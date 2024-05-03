@@ -20,8 +20,9 @@ class ItemResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Доп. товары';
-    protected static ?string $title = 'Доп. товары';
-    protected static ?string $heading = 'Доп. товары';
+    protected ?string $title = 'Доп. товары';
+    protected ?string $heading = 'Доп. товары';
+    protected ?string $subheading = 'Доп. товары';
 
     public static function form(Form $form): Form
     {

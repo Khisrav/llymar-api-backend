@@ -2,16 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Models\Order;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use App\Models\Order;
+use Filament\Forms\Form;
+use App\Models\Additional;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Filament\Resources\OrderResource\RelationManagers\AdditionalsRelationManager;
+use App\Filament\Resources\OrderResource\RelationManagers\OpeningsRelationManager;
+use App\Filament\Resources\VendorAmountResource\RelationManagers\VendorAmountsRelationManager;
+use Filament\Forms\Components\Field;
+use Filament\Tables\Columns\TextColumn;
 
 class OrderResource extends Resource
 {
@@ -20,23 +28,38 @@ class OrderResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Заказы';
+    protected static ?string $title = 'Заказы';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('material_type')
+                    ->options(User::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->native(false)
+                    ->label('ID клиента'),
+                Forms\Components\Select::make('material_type')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status')
+                    ->label('Тип материала')
+                    ->options([
+                        'aluminium' => 'Алюминий',
+                        'polycarbonate' => 'Поликарбонат'
+                    ])
+                    ->native(false),
+                Forms\Components\Select::make('status')
                     ->required()
-                    ->maxLength(255),
+                    ->label('Статус')
+                    ->options([
+                        'pending' => 'В обработке',
+                        'completed' => 'Завершен'
+                    ])
+                    ->native(false),
                 Forms\Components\TextInput::make('total_price')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->label('Итого'),
             ]);
     }
 
@@ -44,16 +67,33 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('material_type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    // ->numeric()
+                    // ->sortable()
+                    ->label('Пользователь')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\SelectColumn::make('material_type')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->options([
+                        'aluminium' => 'Алюминий',
+                        'polycarbonate' => 'Поликарбонат'
+                    ])
+                    ->label('Материал профиля'),
+                Tables\Columns\SelectColumn::make('status')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->options([
+                        'pending' => 'В обработке',
+                        'completed' => 'Завершен'
+                    ])
+                    ->label('Статус'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->numeric()
-                    ->sortable(),
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->sortable()
+                    ->money('RUB')
+                    ->label('Итог'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -64,7 +104,6 @@ class OrderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -79,7 +118,9 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AdditionalsRelationManager::class,
+            OpeningsRelationManager::class,
+            VendorAmountsRelationManager::class
         ];
     }
 

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('vendor_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('img')->unique();
-            $table->string('name')->unique();
-            $table->string('type');
-            $table->integer('unit');
+            $table->integer('vendor_code');
+            $table->string('img');
+            $table->string('name');
+            $table->string('type')->nullable();
+            $table->string('unit');
             $table->integer('price');
             $table->timestamps();
         });

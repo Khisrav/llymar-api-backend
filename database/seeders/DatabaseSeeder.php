@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\ItemSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\VendorCodesSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
         
         $this->call([UserSeeder::class]);
         $this->call([ItemSeeder::class]);
+        $this->call([VendorCodesSeeder::class]);
     }
 }

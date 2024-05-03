@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendors_amount', function (Blueprint $table) {
+        Schema::create('vendor_amounts', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_code_id');
             $table->integer('order_id');
