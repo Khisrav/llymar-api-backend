@@ -1,1 +1,0 @@
-import{a as t}from"./auth-BimC6yo6.js";import{_ as r}from"./index-DLEFopRY.js";import"./axios-Cm0UX6qg.js";const s={async mounted(){try{const o=await t();console.log(o),this.$router.push("/")}catch(o){console.log(o)}}};function e(o,n,c,a,p,u){return null}const f=r(s,[["render",e]]);export{f as default};

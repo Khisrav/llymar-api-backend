@@ -59,6 +59,7 @@ class OrderResource extends Resource
                 Forms\Components\TextInput::make('total_price')
                     ->required()
                     ->numeric()
+                    ->prefix('₽')
                     ->label('Итого'),
             ]);
     }
@@ -67,9 +68,15 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable()
+                    ->label('ID заказа')
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('user.name')
                     // ->numeric()
                     // ->sortable()
+                    ->searchable()
                     ->label('Пользователь')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\SelectColumn::make('material_type')
@@ -106,10 +113,11 @@ class OrderResource extends Resource
             ->filters([
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -131,5 +139,11 @@ class OrderResource extends Resource
             'create' => Pages\CreateOrder::route('/create'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
+    }
+
+    
+    public static function canCreate(): bool
+    {
+        return false;
     }
 }

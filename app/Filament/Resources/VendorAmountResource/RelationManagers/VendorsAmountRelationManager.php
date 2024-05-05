@@ -23,7 +23,21 @@ class VendorAmountsRelationManager extends RelationManager
             ->schema([
                 Forms\Components\TextInput::make('order_id')
                     ->required()
+                    ->disabled(true)
+                    ->label('ID заказа')
                     ->maxLength(255),
+                Forms\Components\Select::make('vendor_code_id')
+                    ->label('Артикул')
+                    ->options(VendorCode::all()->mapWithKeys(function ($vc) {
+                        return [$vc->vendor_code => 'L' . $vc->vendor_code . ' - ' . $vc->name];
+                    })),
+                Forms\Components\TextInput::make('amount')
+                    ->label('Кол-во')
+                    ->numeric(),
+                Forms\Components\TextInput::make('price')
+                    ->prefix('₽')
+                    ->label('Цена')
+                    ->numeric(),
             ]);
     }
 

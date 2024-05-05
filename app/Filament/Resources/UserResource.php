@@ -27,21 +27,25 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->label('Ф.И.О.')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
-                    ->tel()
+                    ->required()
+                    ->label('Телефон')
+                    ->mask('+7 (999) 999 99-99')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Организация'),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
+                    ->label('Email')
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                // Forms\Components\DateTimePicker::make('email_verified_at'),
+                // Forms\Components\TextInput::make('password')
+                //     ->password()
+                //     ->maxLength(255),
             ]);
     }
 
@@ -49,17 +53,28 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+                Tables\Columns\TextInputColumn::make('name')
+                    ->label('Ф.И.О.')
+                    ->searchable()
+                    ->type('text')
+                    ->rules(['required', 'max:255']),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('company')
+                Tables\Columns\TextInputColumn::make('company')
+                    ->label('Организация')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                Tables\Columns\TextInputColumn::make('email')
+                    ->label('Email')
+                    ->searchable()
+                    ->rules(['required', 'max:255']),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

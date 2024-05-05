@@ -30,18 +30,23 @@ class ItemResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->label('Наименование')
                     ->maxLength(255),
                 // Forms\Components\TextInput::make('img')
                 //     ->maxLength(255),
                 Forms\Components\TextInput::make('unit')
                     ->required()
+                    ->label('Ед. изм.')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
                     ->required()
+                    ->label('Цена')
                     ->numeric()
                     ->prefix('₽'),
                 Forms\Components\TextInput::make('vendor_code')
                     ->required()
+                    ->prefix('L')
+                    ->label('Артикул')
                     ->numeric(),
             ]);
     }
@@ -50,21 +55,21 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextInputColumn::make('name')
                     ->searchable()
                     ->label('Наименование'),
                 // Tables\Columns\TextColumn::make('img')
                 //     ->searchable(),
-                Tables\Columns\TextColumn::make('unit')
-                    ->searchable()
+                Tables\Columns\TextInputColumn::make('unit')
                     ->label('Ед. изм.'),
-                Tables\Columns\TextColumn::make('price')
-                    ->money('RUB')
+                Tables\Columns\TextInputColumn::make('price')
                     ->sortable()
+                    ->type('number')
                     ->label('Цена'),
-                Tables\Columns\TextColumn::make('vendor_code')
-                    ->numeric()
+                Tables\Columns\TextInputColumn::make('vendor_code')
+                    ->type('number')
                     ->sortable()
+                    ->searchable()
                     ->label('Артикул'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

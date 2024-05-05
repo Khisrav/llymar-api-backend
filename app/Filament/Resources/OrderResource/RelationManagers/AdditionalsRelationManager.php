@@ -52,6 +52,7 @@ class AdditionalsRelationManager extends RelationManager
                 //     ->sortable(),
                 Tables\Columns\SelectColumn::make('item_id')
                     ->label('Артикул')
+                    ->searchable()
                     ->options(Item::all()->mapWithKeys(function ($item) {
                         return [$item->vendor_code => 'L' . $item->vendor_code . ' - ' . $item->name];
                     })),

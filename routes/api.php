@@ -38,7 +38,7 @@ Route::get('/items', [ItemController::class, 'index'])->middleware('auth:sanctum
 
 Route::get('/user', [UserController::class, 'index'])->middleware('auth:sanctum');
 // Route::get('/user/history', []);
-Route::put('/user/edit', [UserController::class, 'update'])->middleware('auth:sanctum');
+Route::put('/user', [UserController::class, 'update'])->middleware('auth:sanctum');
 
 Route::post('/order', [OrderController::class, 'store'])->middleware('auth:sanctum');
 

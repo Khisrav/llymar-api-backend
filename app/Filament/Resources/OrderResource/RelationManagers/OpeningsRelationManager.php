@@ -53,6 +53,7 @@ class OpeningsRelationManager extends RelationManager
                 //     ->label('ID заказа'),
                 Tables\Columns\SelectColumn::make('type')
                     ->label('Тип проема')
+                    ->searchable()
                     ->options(Opening::all()->pluck('name', 'type')),
                 Tables\Columns\TextInputColumn::make('doors')
                     ->label('Створки')
