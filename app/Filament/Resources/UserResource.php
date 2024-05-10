@@ -42,10 +42,12 @@ class UserResource extends Resource
                     ->required()
                     ->label('Email')
                     ->maxLength(255),
-                // Forms\Components\DateTimePicker::make('email_verified_at'),
-                // Forms\Components\TextInput::make('password')
-                //     ->password()
-                //     ->maxLength(255),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->label('Пароль')
+                    ->maxLength(255)
+                    ->required()
+                    ->hiddenOn('edit')
             ]);
     }
 
@@ -67,9 +69,13 @@ class UserResource extends Resource
                 Tables\Columns\TextInputColumn::make('company')
                     ->label('Организация')
                     ->searchable(),
+                Tables\Columns\TextInputColumn::make('discount')
+                    ->label('Скидка %')
+                    ->type('number'),
                 Tables\Columns\TextInputColumn::make('email')
                     ->label('Email')
                     ->searchable()
+                    ->type('email')
                     ->rules(['required', 'max:255']),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()

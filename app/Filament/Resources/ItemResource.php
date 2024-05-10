@@ -32,8 +32,6 @@ class ItemResource extends Resource
                     ->required()
                     ->label('Наименование')
                     ->maxLength(255),
-                // Forms\Components\TextInput::make('img')
-                //     ->maxLength(255),
                 Forms\Components\TextInput::make('unit')
                     ->required()
                     ->label('Ед. изм.')
@@ -48,6 +46,10 @@ class ItemResource extends Resource
                     ->prefix('L')
                     ->label('Артикул')
                     ->numeric(),
+                Forms\Components\FileUpload::make('img')
+                    ->label('Картинка')
+                    ->image()
+                    ->imageEditor(),
             ]);
     }
 
@@ -58,8 +60,10 @@ class ItemResource extends Resource
                 Tables\Columns\TextInputColumn::make('name')
                     ->searchable()
                     ->label('Наименование'),
-                // Tables\Columns\TextColumn::make('img')
-                //     ->searchable(),
+                Tables\Columns\ImageColumn::make('img')
+                    ->label('Картинка')
+                    ->width(240)
+                    ->height('auto'),
                 Tables\Columns\TextInputColumn::make('unit')
                     ->label('Ед. изм.'),
                 Tables\Columns\TextInputColumn::make('price')

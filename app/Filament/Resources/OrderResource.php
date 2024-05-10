@@ -10,16 +10,18 @@ use Filament\Forms\Form;
 use App\Models\Additional;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Field;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Filament\Resources\OrderResource\RelationManagers\AdditionalsRelationManager;
 use App\Filament\Resources\OrderResource\RelationManagers\OpeningsRelationManager;
+use App\Filament\Resources\OrderResource\RelationManagers\AdditionalsRelationManager;
 use App\Filament\Resources\VendorAmountResource\RelationManagers\VendorAmountsRelationManager;
-use Filament\Forms\Components\Field;
-use Filament\Tables\Columns\TextColumn;
 
 class OrderResource extends Resource
 {
@@ -71,7 +73,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->numeric()
                     ->sortable()
-                    ->label('ID заказа')
+                    ->label('ID')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('user.name')
                     // ->numeric()
@@ -113,8 +115,17 @@ class OrderResource extends Resource
             ->filters([
             ])
             ->actions([
+                // Tables\Actions\EditAction::make(),
+                Action::make('pdf')
+                    ->label('PDF')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(function (Model $record) : string {
+                        $id = $record->id;
+                        return 'http://localhost:5173/generate-pdf/' . $id;
+                    })
+                    ->openUrlInNewTab(),
+                
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                     Tables\Actions\BulkActionGroup::make([
@@ -141,7 +152,6 @@ class OrderResource extends Resource
         ];
     }
 
-    
     public static function canCreate(): bool
     {
         return false;

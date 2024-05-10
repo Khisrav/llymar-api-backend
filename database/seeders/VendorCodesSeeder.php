@@ -59,7 +59,7 @@ class VendorCodesSeeder extends Seeder
         VendorCode::factory()->create([
             'vendor_code' => 8,
             'name' => 'Алюминиевый межстворочный профиль',
-            'img' => '/assets/L8.jpg',
+            'img' => 'https://llymar.ru/assets/L8.jpg',
             'price' => 90,
             'unit' => 'шт.',
             'type' => 'aluminium'
@@ -67,7 +67,7 @@ class VendorCodesSeeder extends Seeder
         VendorCode::factory()->create([
             'vendor_code' => 9,
             'name' => 'Алюминиевый стекольно-торцевой профиль',
-            'img' => '/assets/L9.jpg',
+            'img' => 'https://llymar.ru/assets/L9.jpg',
             'price' => 90,
             'unit' => 'шт.',
             'type' => 'aluminium'

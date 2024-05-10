@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\Models\User;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,5 +32,13 @@ class UserController extends Controller
         $user->save();
 
         return true;
+    }
+
+    public function history() {
+        $user_id = Auth::id();
+
+        $orders = Order::all()->where('user_id', '=', $user_id);
+
+        return $orders;
     }
 }
