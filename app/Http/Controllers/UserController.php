@@ -36,9 +36,11 @@ class UserController extends Controller
 
     public function history() {
         $user_id = Auth::id();
-
-        $orders = Order::all()->where('user_id', '=', $user_id);
-
+    
+        $orders = Order::where('user_id', $user_id)
+            ->orderByDesc('created_at')
+            ->get();
+    
         return $orders;
     }
 }

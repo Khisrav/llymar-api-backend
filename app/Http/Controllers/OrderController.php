@@ -17,7 +17,8 @@ class OrderController extends Controller
             'total_price' => 'required',
             'openings' => 'required',
             'vendor_codes' => 'required',
-            'additionals' => ''
+            'additionals' => '',
+            'comment' => '',
         ]);
 
         $formFields['user_id'] = auth()->id();
@@ -27,6 +28,7 @@ class OrderController extends Controller
             'status' => 'pending',
             'total_price' => $formFields['total_price'],
             'user_id' => $formFields['user_id'],
+            'comment' => $formFields['comment'],
         ));
 
         $openings = $formFields['openings'];

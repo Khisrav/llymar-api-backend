@@ -97,6 +97,12 @@ class OrderResource extends Resource
                         'completed' => 'Завершен'
                     ])
                     ->label('Статус'),
+                Tables\Columns\TextColumn::make('comment')
+                    ->label('Комментарий')
+                    ->searchable()
+                    ->listWithLineBreaks()
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('total_price')
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: false)
@@ -121,7 +127,7 @@ class OrderResource extends Resource
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(function (Model $record) : string {
                         $id = $record->id;
-                        return 'http://localhost:5173/generate-pdf/' . $id;
+                        return 'http://localhost:5173/generate-pdf/' . $record->user_id . '-' . $id;
                     })
                     ->openUrlInNewTab(),
                 
