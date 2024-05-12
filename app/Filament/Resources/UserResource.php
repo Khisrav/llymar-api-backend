@@ -37,6 +37,9 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('company')
                     ->maxLength(255)
                     ->label('Организация'),
+                Forms\Components\TextInput::make('address')
+                    ->label('Адрес')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -68,6 +71,9 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextInputColumn::make('company')
                     ->label('Организация')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Адрес')
                     ->searchable(),
                 Tables\Columns\TextInputColumn::make('discount')
                     ->label('Скидка %')

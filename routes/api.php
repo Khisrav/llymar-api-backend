@@ -1,7 +1,12 @@
 <?php
 
+use App\Models\Item;
+use App\Models\User;
 use App\Models\Order;
+use App\Models\Opening;
+use App\Models\Additional;
 use App\Models\VendorCode;
+use App\Models\VendorAmount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
@@ -9,9 +14,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\VendorCodeController;
-use App\Models\Additional;
-use App\Models\Opening;
-use App\Models\VendorAmount;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,15 +50,21 @@ Route::get('/user/history', [UserController::class, 'history'])->middleware('aut
 Route::put('/user', [UserController::class, 'update'])->middleware('auth:sanctum');
 
 Route::post('/order', [OrderController::class, 'store'])->middleware('auth:sanctum');
-Route::get('/pdf/{id}', function (string $id) {
-    $order = Order::find($id);
+Route::get('/pdf/{userID}/{orderID}', function (string $userID, string $orderID) {
+    $user = User::find($userID);
+    $order = Order::find($orderID);
     $openings = Opening::all()->where('order_id', '=', $order['id']);
     $additionals = Additional::all()->where('order_id', '=', $order['id']);
     $vendorsAmount = VendorAmount::all()->where('order_id', '=', $order['id']);
+    $vendors = VendorCode::all();
+    $items = Item::all();
     return json_encode([
+        'user' => $user,
         'order' => $order,
         'openings' => $openings,
         'additionals' => $additionals,
-        'vendorsAmount' => $vendorsAmount
+        'vendorsAmount' => $vendorsAmount,
+        'vendors' => $vendors,
+        'items' => $items,
     ]);
-})->where('id', '[0-9]+');
+});

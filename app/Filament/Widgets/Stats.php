@@ -19,9 +19,9 @@ class Stats extends BaseWidget
             Stat::make('Всего заказов', Order::count()),
             Stat::make('Заказы в обработке', Order::all()->where('status', 'pending')->count()),
             Stat::make('Выполненные заказы', Order::all()->where('status', 'completed')->count()),
-            Stat::make('Сумма заказов', Order::all()->sum('total_price') . ' ₽'),
-            Stat::make('Сумма заказов в обработке', Order::all()->where('status', 'pending')->sum('total_price') . ' ₽'),
-            Stat::make('Сумма выполненных заказов', Order::all()->where('status', 'completed')->sum('total_price') . ' ₽'),
+            Stat::make('Сумма заказов', number_format(Order::all()->sum('total_price'), 0, ',', ' ') . ' ₽'),
+            Stat::make('Сумма заказов в обработке', number_format(Order::all()->where('status', 'pending')->sum('total_price'), 0, ',', ' ') . ' ₽'),
+            Stat::make('Сумма выполненных заказов', number_format(Order::all()->where('status', 'completed')->sum('total_price'), 0, ',', ' ') . ' ₽'),
         ];
     }
 }
