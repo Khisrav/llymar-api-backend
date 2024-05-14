@@ -109,5 +109,61 @@ class VendorCodesSeeder extends Seeder
             'price' => 39,
             'unit' => 'м.п.'
         ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 15,
+            'name' => 'Заглушка П1',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 16,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 17,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 18,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 19,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 20,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 21,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 22,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 39,
+            'unit' => 'м.п.'
+        ]);
     }
 }

@@ -30,7 +30,8 @@ class VendorCodeResource extends Resource
                     ->required()
                     ->prefix('L')
                     ->label('Артикул')
-                    ->numeric(),
+                    ->numeric()
+                    ->disabled(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->label('Наименование')
