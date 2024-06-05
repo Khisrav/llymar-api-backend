@@ -165,5 +165,12 @@ class VendorCodesSeeder extends Seeder
             'price' => 39,
             'unit' => 'м.п.'
         ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 26,
+            'name' => 'Фетр щеточный 7*10',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 123,
+            'unit' => 'м.п.'
+        ]);
     }
 }

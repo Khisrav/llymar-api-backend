@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_amounts', function (Blueprint $table) {
-            $table->id();
-            $table->integer('vendor_code_id');
-            $table->integer('order_id');
-            $table->integer('price');
-            $table->integer('amount');
-            $table->timestamps();
+        Schema::table('vendor_codes', function (Blueprint $table) {
+            $table->integer('discount')->default(0);
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_amounts');
+        Schema::table('vendor_codes', function (Blueprint $table) {
+            //
+        });
     }
 };

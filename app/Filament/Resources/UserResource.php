@@ -42,6 +42,11 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('address')
                     ->label('Адрес')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('discount')
+                    ->label('Скидка %')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -51,8 +56,8 @@ class UserResource extends Resource
                     ->password()
                     ->label('Пароль')
                     ->maxLength(255)
+                    ->minLength(8)
                     ->required()
-                    ->hiddenOn('edit')
             ]);
     }
 

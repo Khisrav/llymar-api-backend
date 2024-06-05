@@ -41,6 +41,11 @@ class ItemResource extends Resource
                     ->label('Цена')
                     ->numeric()
                     ->prefix('₽'),
+                Forms\Components\TextInput::make('discount')
+                    ->label('Скидка %')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100),
                 Forms\Components\TextInput::make('vendor_code')
                     ->required()
                     ->prefix('L')
@@ -70,6 +75,9 @@ class ItemResource extends Resource
                     ->sortable()
                     ->type('number')
                     ->label('Цена'),
+                Tables\Columns\TextInputColumn::make('discount')
+                    ->label('Скидка %')
+                    ->type('number'),
                 Tables\Columns\TextInputColumn::make('vendor_code')
                     ->type('number')
                     ->sortable()

@@ -14,6 +14,7 @@ class Item extends Model
         'img_url',
         'vendor_code',
         'price',
-        'unit'
+        'unit',
+        'discount'
     ];
 }

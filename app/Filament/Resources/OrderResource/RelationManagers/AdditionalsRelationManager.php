@@ -39,6 +39,11 @@ class AdditionalsRelationManager extends RelationManager
                     ->required()
                     ->numeric()
                     ->label('Цена'),
+                
+                Forms\Components\TextInput::make('discount')
+                    ->required()
+                    ->numeric()
+                    ->label('Скидка %'),
             ]);
     }
 
@@ -64,10 +69,14 @@ class AdditionalsRelationManager extends RelationManager
                     ->label('Цена (₽)')
                     ->sortable()
                     ->type('number'),
+                Tables\Columns\TextInputColumn::make('discount')
+                    ->label('Скидка %')
+                    ->sortable()
+                    ->type('number'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Итого')
                     ->state(function (Model $record) {
-                        return $record->amount * $record->price . '₽';
+                        return $record->amount * $record->price * (1 - $record->discount / 100) . '₽';
                     }),
             ])
             ->filters([

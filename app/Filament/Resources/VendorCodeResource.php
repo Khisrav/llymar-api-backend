@@ -49,6 +49,11 @@ class VendorCodeResource extends Resource
                     ->label('Цена')
                     ->numeric()
                     ->prefix('₽'),
+                Forms\Components\TextInput::make('discount')
+                    ->label('Скидка %')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100),
             ]);
     }
 
@@ -96,7 +101,10 @@ class VendorCodeResource extends Resource
                     ->label('Цена')
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->type('number')
-                    ->rules(['required'])
+                    ->rules(['required']),
+                Tables\Columns\TextInputColumn::make('discount')
+                    ->label('Скидка %')
+                    ->type('number'),
             ])
             ->filters([
                 //

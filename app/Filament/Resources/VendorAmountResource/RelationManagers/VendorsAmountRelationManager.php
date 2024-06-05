@@ -38,6 +38,10 @@ class VendorAmountsRelationManager extends RelationManager
                     ->prefix('₽')
                     ->label('Цена')
                     ->numeric(),
+                Forms\Components\TextInput::make('discount')
+                    ->suffix('%')
+                    ->label('Скидка')
+                    ->numeric(),
             ]);
     }
 
@@ -62,11 +66,16 @@ class VendorAmountsRelationManager extends RelationManager
                 ->label('Цена')
                 ->type('number')
                 ->sortable(),
+                Tables\Columns\TextInputColumn::make('discount')
+                ->label('Скидка %')
+                ->type('number')
+                ->sortable(),
                 Tables\Columns\TextColumn::make('total_price')
                 ->label('Итого')
                 ->sortable()
                 ->state(function (Model $record) {
-                    return $record->amount * $record->price . '₽';
+                    return $record->discount;
+                    return $record->amount * $record->price * (1 - $record->discount / 100) . '₽';
                 }),
             ])
             ->filters([

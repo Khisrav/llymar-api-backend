@@ -7,6 +7,7 @@ use App\Models\Opening;
 use App\Models\Order;
 use App\Models\VendorAmount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -50,23 +51,20 @@ class OrderController extends Controller
                 'order_id' => $order['id'],
                 'item_id' => $additional['id'],
                 'amount' => $additional['amount'],
-                'price' => $additional['price']
+                'price' => $additional['price'],
+                'discount' => $additional['discount'],
             ]);
         }
 
-        // $temp = [];
-        // foreach ($request['vendor_codes'] as $vc) {
-        //     $temp[] = $vc;
-        // }
-        // return $temp;
-
         $vendorAmounts = $formFields['vendor_codes'];
         foreach ($vendorAmounts as $vendorAmount) {
+            Log::info('KHISRAV_INFO ' . $vendorAmount['id'] . ' -> ' . $vendorAmount['discount'] . '%');
             VendorAmount::create([
                 'order_id' => $order['id'],
                 'vendor_code_id' => $vendorAmount['id'],
                 'amount' => $vendorAmount['amount'],
-                'price' => $vendorAmount['price']
+                'price' => $vendorAmount['price'],
+                'discount' => $vendorAmount['discount'],
             ]);
         }
 
