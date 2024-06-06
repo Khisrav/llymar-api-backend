@@ -74,8 +74,7 @@ class VendorAmountsRelationManager extends RelationManager
                 ->label('Итого')
                 ->sortable()
                 ->state(function (Model $record) {
-                    return $record->discount;
-                    return $record->amount * $record->price * (1 - $record->discount / 100) . '₽';
+                    return intval($record->amount * $record->price * (1 - $record->discount / 100)) . '₽';
                 }),
             ])
             ->filters([

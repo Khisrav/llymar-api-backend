@@ -76,7 +76,7 @@ class AdditionalsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Итого')
                     ->state(function (Model $record) {
-                        return $record->amount * $record->price * (1 - $record->discount / 100) . '₽';
+                        return intval($record->amount * $record->price * (1 - $record->discount / 100)) . '₽';
                     }),
             ])
             ->filters([
