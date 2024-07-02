@@ -28,7 +28,11 @@ class OpeningsRelationManager extends RelationManager
                     ->required()
                     ->label('Тип проема')
                     ->native(false)
-                    ->options(Opening::all()->pluck('name', 'type')),
+                    ->options([
+                        'left' => 'Левый проем',
+                        'right' => 'Правый проем',
+                        'center' => 'Центральный проем',
+                    ]),
                 Forms\Components\TextInput::make('doors')
                     ->required()
                     ->label('Кол-во створок')
@@ -54,7 +58,12 @@ class OpeningsRelationManager extends RelationManager
                 Tables\Columns\SelectColumn::make('type')
                     ->label('Тип проема')
                     ->searchable()
-                    ->options(Opening::all()->pluck('name', 'type')),
+                    // ->options(Opening::all()->pluck('name', 'type')),
+                    ->options([
+                        'left' => 'Левый проем',
+                        'right' => 'Правый проем',
+                        'center' => 'Центральный проем',
+                    ]),
                 Tables\Columns\TextInputColumn::make('doors')
                     ->label('Створки')
                     ->sortable()

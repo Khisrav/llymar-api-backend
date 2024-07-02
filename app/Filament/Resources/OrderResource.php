@@ -7,10 +7,12 @@ use App\Models\User;
 use Filament\Tables;
 use App\Models\Order;
 use Filament\Forms\Form;
-use App\Models\Additional;
 use Filament\Tables\Table;
+use function Livewire\before;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Field;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers;
+
 use App\Filament\Resources\OrderResource\RelationManagers\OpeningsRelationManager;
 use App\Filament\Resources\OrderResource\RelationManagers\AdditionalsRelationManager;
 use App\Filament\Resources\VendorAmountResource\RelationManagers\VendorAmountsRelationManager;
@@ -69,6 +72,8 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginated([10, 25, 50, 100, 'all'])
+            ->defaultPaginationPageOption(50)
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->numeric()
@@ -127,15 +132,25 @@ class OrderResource extends Resource
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(function (Model $record) : string {
                         $id = $record->id;
-                        return 'http://localhost:5173/generate-pdf/' . $record->user_id . '-' . $id;
+                        return "https://llymar.ru/generate-pdf/" . $record->user_id . '-' . $id;
                     })
                     ->openUrlInNewTab(),
                 
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function (Model $record) {
+                        DB::table('vendor_amounts')->where('order_id', '=', $record->id)->delete();
+                        DB::table('openings')->where('order_id', '=', $record->id)->delete();
+                        DB::table('additionals')->where('order_id', '=', $record->id)->delete();
+                    }),
             ])
             ->bulkActions([
                     Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->before(function (Model $record) {
+                            DB::table('vendor_amounts')->where('order_id', '=', $record->id)->delete();
+                            DB::table('openings')->where('order_id', '=', $record->id)->delete();
+                            DB::table('additionals')->where('order_id', '=', $record->id)->delete();
+                        })
                 ]),
             ]);
     }
