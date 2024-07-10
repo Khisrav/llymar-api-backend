@@ -16,15 +16,18 @@ use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Field;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\OrderResource\RelationManagers;
 
+use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\OpeningsRelationManager;
 use App\Filament\Resources\OrderResource\RelationManagers\AdditionalsRelationManager;
 use App\Filament\Resources\VendorAmountResource\RelationManagers\VendorAmountsRelationManager;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
 
 class OrderResource extends Resource
 {
@@ -75,53 +78,52 @@ class OrderResource extends Resource
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(50)
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->numeric()
-                    ->sortable()
-                    ->label('ID')
-                    ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('user.name')
-                    // ->numeric()
-                    // ->sortable()
-                    ->searchable()
-                    ->label('Пользователь')
-                    ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\SelectColumn::make('material_type')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->options([
-                        'aluminium' => 'Алюминий',
-                        'polycarbonate' => 'Поликарбонат'
-                    ])
-                    ->label('Материал профиля'),
-                Tables\Columns\SelectColumn::make('status')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->options([
-                        'pending' => 'В обработке',
-                        'completed' => 'Завершен'
-                    ])
-                    ->label('Статус'),
-                Tables\Columns\TextColumn::make('comment')
-                    ->label('Комментарий')
-                    ->searchable()
-                    ->listWithLineBreaks()
-                    ->wrap()
-                    ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('total_price')
-                    ->numeric()
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->sortable()
-                    ->money('RUB')
-                    ->label('Итог'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Split::make([
+                    Tables\Columns\TextColumn::make('id')
+                        ->numeric()
+                        ->sortable()
+                        ->prefix('ID: ')
+                        ->weight(FontWeight::Bold)
+                        ->grow(false)
+                        // ->alignCenter()
+                        ->toggleable(isToggledHiddenByDefault: false),
+                    Tables\Columns\TextColumn::make('user.name')
+                        ->searchable()
+                        ->prefix('')
+                        // ->alignCenter()
+                        ->toggleable(isToggledHiddenByDefault: false),
+                    Tables\Columns\TextColumn::make('comment')
+                        ->prefix('Комментарий: ')
+                        ->searchable()
+                        ->listWithLineBreaks()
+                        ->wrap()
+                        // ->alignCenter()
+                        ->toggleable(isToggledHiddenByDefault: false),
+                    Stack::make([
+                        Tables\Columns\SelectColumn::make('status')
+                            ->searchable()
+                            ->toggleable(isToggledHiddenByDefault: false)
+                            ->options([
+                                'pending' => 'В обработке',
+                                'completed' => 'Завершен'
+                            ])
+                            // ->alignCenter()
+                            ->label('Статус'),
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->dateTime('d.M.Y - h:m')
+                        ->sortable()
+                        // ->alignCenter()
+                        ->toggleable(isToggledHiddenByDefault: true),
+                    ])->space(3)->grow(false),
+                    Tables\Columns\TextColumn::make('total_price')
+                        ->numeric()
+                        ->toggleable(isToggledHiddenByDefault: false)
+                        ->sortable()
+                        ->money('RUB')
+                        // ->alignCenter()
+                        ->label('Итог'),
+                ])->from('md'),
+
             ])
             ->filters([
             ])

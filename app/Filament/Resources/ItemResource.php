@@ -8,7 +8,11 @@ use App\Models\Item;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -62,42 +66,45 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextInputColumn::make('name')
-                    ->searchable()
-                    ->label('Наименование'),
-                Tables\Columns\ImageColumn::make('img')
-                    ->label('Картинка')
-                    ->width(240)
-                    ->height('auto'),
-                Tables\Columns\TextInputColumn::make('unit')
-                    ->label('Ед. изм.'),
-                Tables\Columns\TextInputColumn::make('price')
-                    ->sortable()
-                    ->type('number')
-                    ->label('Цена'),
-                Tables\Columns\TextInputColumn::make('discount')
-                    ->label('Скидка %')
-                    ->type('number'),
-                Tables\Columns\TextInputColumn::make('vendor_code')
-                    ->type('number')
-                    ->sortable()
-                    ->searchable()
-                    ->label('Артикул'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Split::make([
+                    Tables\Columns\ImageColumn::make('img')
+                        ->label('Картинка')
+                        ->width(160)
+                        ->height('auto'),
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('vendor_code')
+                            ->sortable()
+                            ->searchable()
+                            ->label('Артикул')
+                            ->prefix('Артикул: L')
+                            ->weight(FontWeight::Bold),
+                        Tables\Columns\TextColumn::make('name')
+                            ->searchable()
+                            ->label('Наименование')
+                            ->listWithLineBreaks()
+                            ->wrap(),
+                    ]),
+                    Stack::make([
+                        Split::make([
+                            Tables\Columns\TextColumn::make('unit')
+                                ->prefix('Ед изм: '),
+                            Tables\Columns\TextColumn::make('price')
+                                ->sortable()
+                                ->prefix('Цена: ')
+                                ->suffix(' руб.'),
+                        ]),
+                        Tables\Columns\TextColumn::make('discount')
+                            ->prefix('Скидка: ')
+                            ->suffix('%'),
+                    ])->space(3),
+                ])->from('md')
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
