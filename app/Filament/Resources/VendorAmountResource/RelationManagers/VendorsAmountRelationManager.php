@@ -27,20 +27,24 @@ class VendorAmountsRelationManager extends RelationManager
                     ->label('ID заказа')
                     ->maxLength(255),
                 Forms\Components\Select::make('vendor_code_id')
+                    ->required()
                     ->label('Артикул')
                     ->options(VendorCode::all()->mapWithKeys(function ($vc) {
                         return [$vc->vendor_code => 'L' . $vc->vendor_code . ' - ' . $vc->name];
                     })),
                 Forms\Components\TextInput::make('amount')
+                    ->required()
                     ->label('Кол-во')
                     ->numeric(),
                 Forms\Components\TextInput::make('price')
+                    ->required()
                     ->prefix('₽')
                     ->label('Цена')
                     ->numeric(),
                 Forms\Components\TextInput::make('discount')
-                    ->suffix('%')
-                    ->label('Скидка')
+                    ->required()
+                    // ->suffix('%')
+                    ->label('Коэф. скидки')
                     ->numeric(),
             ]);
     }
@@ -67,14 +71,13 @@ class VendorAmountsRelationManager extends RelationManager
                 ->type('number')
                 ->sortable(),
                 Tables\Columns\TextInputColumn::make('discount')
-                ->label('Скидка %')
-                ->type('number')
+                ->label('Коэф. скидки')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('total_price')
                 ->label('Итого')
                 ->sortable()
                 ->state(function (Model $record) {
-                    return intval($record->amount * $record->price * (1 - $record->discount / 100)) . '₽';
+                    return intval($record->amount * $record->price * $record->discount) . '₽';
                 }),
             ])
             ->filters([
