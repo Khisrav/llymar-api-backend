@@ -20,6 +20,8 @@ class VendorCodeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationLabel = 'Артикулы';
 
     public static function form(Form $form): Form
