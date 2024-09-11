@@ -16,4 +16,6 @@ class EditWarehouseRecord extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    
+    protected static ?string $title = 'Редактировать запись';
 }

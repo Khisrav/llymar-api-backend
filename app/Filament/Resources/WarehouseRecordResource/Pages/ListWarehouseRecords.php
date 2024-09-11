@@ -16,4 +16,6 @@ class ListWarehouseRecords extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    
+    protected static ?string $title = 'Записи склада';
 }

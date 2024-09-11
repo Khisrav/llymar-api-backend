@@ -16,4 +16,7 @@ class ListUsers extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    
+    
+    protected static ?string $title = 'Пользователи';
 }

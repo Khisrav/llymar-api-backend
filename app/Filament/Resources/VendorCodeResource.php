@@ -111,8 +111,15 @@ class VendorCodeResource extends Resource
                     ->type('number'),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Остаток')
-                    ->suffix(' шт.')
+                    // ->suffix(' шт.')
                     ->searchable()
+                    ->getStateUsing(function (Model $record) {
+                        //return NaN if is_warehouse == false
+                        return $record['is_warehouse']  ? $record['quantity'] . ' шт.' : '';
+                    })
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\ToggleColumn::make('is_warehouse')
+                    ->label('На складе')
                     ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
@@ -125,7 +132,9 @@ class VendorCodeResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([25, 50, 100])
+            ->defaultPaginationPageOption(50);
     }
 
     public static function getRelations(): array

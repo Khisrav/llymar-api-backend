@@ -52,11 +52,11 @@ class WarehouseRecordResource extends Resource
                     ->required()
                     ->options(
                         function(): array {
-                            $vendors = VendorCode::all()->mapWithKeys(function($vendor) {
+                            $vendors = VendorCode::where('is_warehouse', true)->get()->mapWithKeys(function($vendor) {
                                 return [$vendor->vendor_code => 'L' . $vendor->vendor_code . ' - ' . $vendor->name];
                             });
 
-                            $items = Item::all()->mapWithKeys(function($item) {
+                            $items = Item::where('is_warehouse', true)->get()->mapWithKeys(function($item) {
                                 return [$item->vendor_code => 'L' . $item->vendor_code . ' - ' . $item->name];
                             });
                             
@@ -66,7 +66,7 @@ class WarehouseRecordResource extends Resource
                             ];
                         }
                     )
-            ]);
+                ]);
     }
 
     public static function table(Table $table): Table
@@ -145,7 +145,9 @@ class WarehouseRecordResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([25, 50, 100])
+            ->defaultPaginationPageOption(50);
     }
 
     public static function getRelations(): array

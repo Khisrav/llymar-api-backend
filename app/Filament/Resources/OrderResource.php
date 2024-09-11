@@ -189,7 +189,7 @@ class OrderResource extends Resource
                         })
                 ]),
             ])
-            ->paginated([25, 50, 100, 'all'])
+            ->paginated([25, 50, 100])
             ->defaultPaginationPageOption(50);
     }
 

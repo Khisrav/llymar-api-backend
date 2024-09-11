@@ -119,6 +119,12 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('vendor_code')
+                    ->label('Арт.')
+                    ->sortable()
+                    ->prefix('L')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\ImageColumn::make('img')
                     ->label('Картинка')
                     ->width(200)
@@ -143,16 +149,13 @@ class ItemResource extends Resource
                     ->label('Скидка %')
                     ->type('number')
                     ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextInputColumn::make('vendor_code')
-                    ->type('number')
-                    ->sortable()
-                    ->searchable()
-                    ->label('Артикул')
-                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Остаток')
                     ->searchable()
                     ->suffix(' шт.')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\ToggleColumn::make('is_warehouse')
+                    ->label('На складе')
                     ->toggleable(isToggledHiddenByDefault: false),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime()
@@ -167,14 +170,16 @@ class ItemResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([25, 50, 100])
+            ->defaultPaginationPageOption(50);
     }
 
     public static function getRelations(): array

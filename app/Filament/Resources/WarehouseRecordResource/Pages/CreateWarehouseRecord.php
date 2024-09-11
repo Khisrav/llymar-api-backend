@@ -9,4 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateWarehouseRecord extends CreateRecord
 {
     protected static string $resource = WarehouseRecordResource::class;
+    
+    
+    protected static ?string $title = 'Создать запись';
 }

@@ -16,4 +16,6 @@ class ListVendorCodes extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    
+    protected static ?string $title = 'Артикулы';
 }

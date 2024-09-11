@@ -16,4 +16,6 @@ class EditOrder extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    
+    protected static ?string $title = 'Информация о заказе';
 }
