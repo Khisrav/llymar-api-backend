@@ -77,56 +77,88 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->paginated([10, 25, 50, 100, 'all'])
-            ->defaultPaginationPageOption(50)
             ->columns([
-                Split::make([
-                    Tables\Columns\TextColumn::make('id')
-                        ->numeric()
-                        ->sortable()
-                        ->prefix('ID: ')
-                        ->weight(FontWeight::Bold)
-                        ->grow(false)
-                        // ->alignCenter()
-                        ->toggleable(isToggledHiddenByDefault: false),
-                    Tables\Columns\TextColumn::make('user.name')
-                        ->searchable()
-                        ->prefix('')
-                        // ->alignCenter()
-                        ->toggleable(isToggledHiddenByDefault: false),
-                    Tables\Columns\TextColumn::make('comment')
-                        ->prefix('Комментарий: ')
-                        ->searchable()
-                        ->listWithLineBreaks()
-                        ->wrap()
-                        // ->alignCenter()
-                        ->toggleable(isToggledHiddenByDefault: false),
-                    Stack::make([
-                        Tables\Columns\SelectColumn::make('status')
-                            ->searchable()
-                            ->toggleable(isToggledHiddenByDefault: false)
-                            ->options([
-                                'pending' => 'В обработке',
-                                'completed' => 'Завершен'
-                            ])
-                            // ->alignCenter()
-                            ->label('Статус'),
-                    Tables\Columns\TextColumn::make('created_at')
-                        ->dateTime('d.M.Y - h:m')
-                        ->sortable()
-                        // ->alignCenter()
-                        ->toggleable(isToggledHiddenByDefault: true),
-                    ])->space(3)->grow(false),
-                    Tables\Columns\TextColumn::make('total_price')
-                        ->numeric()
-                        ->toggleable(isToggledHiddenByDefault: false)
-                        ->sortable()
-                        ->money('RUB')
-                        // ->alignCenter()
-                        ->label('Итог'),
-                ])->from('md'),
-
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable()
+                    ->label('ID')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('user.name')
+                    // ->numeric()
+                    // ->sortable()
+                    ->searchable()
+                    ->wrap()
+                    ->label('Пользователь')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\SelectColumn::make('material_type')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->options([
+                        'aluminium' => 'Алюминий',
+                        'polycarbonate' => 'Поликарбонат'
+                    ])
+                    ->label('Материал профиля'),
+                Tables\Columns\SelectColumn::make('status')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->options([
+                        'pending' => 'В обработке',
+                        'completed' => 'Завершен'
+                    ])
+                    ->selectablePlaceholder(false)
+                    ->label('Статус')
+                    ->afterStateUpdated(function (?string $state, Model $record) {
+                        // Fetch vendor and item orders once to avoid repeated queries
+                        $vendorOrders = DB::table('vendor_amounts')
+                            ->where('order_id', $record->id)
+                            ->get();
+                    
+                        $itemOrders = DB::table('additionals')
+                            ->where('order_id', $record->id)
+                            ->get();
+                    
+                        // Define the operation based on the order status
+                        $operation = $state === 'completed' ? 'decrement' : 'increment';
+                    
+                        // Update vendor_codes quantities
+                        foreach ($vendorOrders as $vendorOrder) {
+                            DB::table('vendor_codes')
+                                ->where('vendor_code', $vendorOrder->vendor_code_id)
+                                ->{$operation}('quantity', $vendorOrder->amount);
+                        }
+                    
+                        // Update items quantities
+                        foreach ($itemOrders as $itemOrder) {
+                            DB::table('items')
+                                ->where('vendor_code', $itemOrder->item_id)
+                                ->{$operation}('quantity', $itemOrder->amount);
+                        }
+                    }),
+                Tables\Columns\TextColumn::make('comment')
+                    ->label('Комментарий')
+                    ->searchable()
+                    ->listWithLineBreaks()
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextInputColumn::make('delivery')
+                    ->label('Доставка')
+                    ->type('number'),
+                Tables\Columns\TextColumn::make('total_price')
+                    ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->sortable()
+                    ->money('RUB')
+                    ->label('Итог'),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
             ])
             ->actions([
@@ -156,7 +188,9 @@ class OrderResource extends Resource
                             DB::table('additionals')->where('order_id', '=', $record->id)->delete();
                         })
                 ]),
-            ]);
+            ])
+            ->paginated([25, 50, 100, 'all'])
+            ->defaultPaginationPageOption(50);
     }
 
     public static function getRelations(): array

@@ -73,22 +73,24 @@ class VendorCodeResource extends Resource
                     }),
                 Tables\Columns\ImageColumn::make('img')
                     ->label('Картинка')
-                    ->width(240)
+                    ->width(200)
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->height('auto'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->wrap()
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->label('Название'),
-                Tables\Columns\SelectColumn::make('type')
-                    ->label('Тип профиля')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->options([
-                        '' => '',
-                        'aluminium' => 'Алюминий',
-                        'polycarbonate' => 'Поликарбонат'
-                    ]),
+                // Tables\Columns\SelectColumn::make('type')
+                //     ->label('Тип профиля')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: false)
+                //     ->options([
+                //         '' => '',
+                //         'aluminium' => 'Алюминий',
+                //         'polycarbonate' => 'Поликарбонат'
+                //     ]),
+                
                 Tables\Columns\SelectColumn::make('unit')
                     ->label('Ед. изм.')
                     ->toggleable(isToggledHiddenByDefault: false)
@@ -107,6 +109,11 @@ class VendorCodeResource extends Resource
                 Tables\Columns\TextInputColumn::make('discount')
                     ->label('Скидка %')
                     ->type('number'),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->label('Остаток')
+                    ->suffix(' шт.')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
                 //

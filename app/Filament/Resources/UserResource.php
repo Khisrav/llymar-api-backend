@@ -69,59 +69,42 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
-                    ->sortable()
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextInputColumn::make('name')
                     ->label('Ф.И.О.')
                     ->searchable()
                     ->type('text')
-                    ->rules(['required', 'max:255'])
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->rules(['required', 'max:255']),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Телефон')
-                    ->searchable()
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('company')
+                    ->searchable(),
+                Tables\Columns\TextInputColumn::make('company')
                     ->label('Организация')
-                    ->searchable()
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->label('Адрес')
-                    ->searchable()
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->wrap()
+                    ->searchable(),
                 Tables\Columns\TextInputColumn::make('discount')
                     ->label('Скидка %')
-                    ->type('number')
-                    ->visibleFrom('md')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->type('number'),
                 Tables\Columns\TextInputColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->type('email')
-                    ->visibleFrom('md')
-                    ->rules(['required', 'max:255'])
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->rules(['required', 'max:255']),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()
-                    ->visibleFrom('md')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->visibleFrom('md')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->visibleFrom('md')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                // Spli
             ])
             ->filters([
                 //

@@ -20,6 +20,7 @@ use Filament\Tables\Columns\TextInputColumn;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\WarehouseRecordResource\Pages;
 use App\Filament\Resources\WarehouseRecordResource\RelationManagers;
+use Filament\Tables\Columns\ImageColumn;
 
 class WarehouseRecordResource extends Resource
 {
@@ -74,34 +75,65 @@ class WarehouseRecordResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     -> label('ID')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('vendor_code_id')
                     ->label('Арт.')
                     ->searchable()
                     ->sortable()
                     ->getStateUsing(function (Model $record) {
                         return 'L' . $record['vendor_code_id'];
+                    })
+                    ->toggleable(isToggledHiddenByDefault: false),
+                ImageColumn::make('vendor.img')
+                    ->label('Изображение')
+                    ->width(160)
+                    ->height('auto')
+                    ->getStateUsing(function (Model $record) {
+                        $vendor = VendorCode::where('vendor_code', $record->vendor_code_id)->first(); // Get related vendor
+                        
+                        // dd($vendor->img);
+                        return $vendor->img; // Return the image filename if available
                     }),
                 TextColumn::make('vendor_code_name')
                     ->label('Наименование')
                     ->searchable()
                     ->sortable()
+                    ->wrap()
                     ->getStateUsing(function (Model $record) {
-                        $vendor = VendorCode::all()->where('vendor_code', $record['vendor_code_id'])->first();
-                        $item = Item::all()->where('vendor_code', $record['vendor_code_id'])->first();
+                        $vendor = VendorCode::where('vendor_code', $record['vendor_code_id'])->first();
+                        $item = Item::where('vendor_code', $record['vendor_code_id'])->first();
 
                         if ($vendor) {
                             return $vendor->name;
                         } else {
                             return $item->name;
                         }
-                    }),
+                    })
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextInputColumn::make('quantity')
                     ->label('Количество')
                     ->searchable()
                     ->sortable()
-                    ->type('number'),
+                    ->type('number')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextInputColumn::make('purchase_price')
+                    ->label('Закупочная цена')
+                    ->sortable()
+                    ->type('number')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('vendor.price')
+                    ->label('Розничная цена')
+                    ->sortable()
+                    ->getStateUsing(function (Model $record) {
+                        $vendor = VendorCode::where('vendor_code', $record['vendor_code_id'])->first();
+                        return $vendor->price;
+                    })
+                    ->alignCenter()
+                    ->money('RUB')
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
