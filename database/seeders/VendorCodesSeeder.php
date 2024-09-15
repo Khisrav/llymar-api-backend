@@ -172,5 +172,19 @@ class VendorCodesSeeder extends Seeder
             'price' => 123,
             'unit' => 'м.п.'
         ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 2000,
+            'name' => 'Глухое остекление',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 7700,
+            'unit' => 'шт.'
+        ]);
+        VendorCode::factory()->create([
+            'vendor_code' => 2001,
+            'name' => 'Треугольник',
+            'img' => 'https://random.imagecdn.app/299/149',
+            'price' => 7700,
+            'unit' => 'шт.'
+        ]);
     }
 }

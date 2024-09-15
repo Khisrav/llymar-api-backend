@@ -66,6 +66,11 @@ class OrderResource extends Resource
                         'completed' => 'Завершен'
                     ])
                     ->native(false),
+                Forms\Components\TextInput::make('delivery')
+                    ->label('Доставка')
+                    ->numeric()
+                    ->required()
+                    ->prefix('₽'),
                 Forms\Components\TextInput::make('total_price')
                     ->required()
                     ->numeric()

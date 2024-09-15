@@ -32,6 +32,10 @@ class OpeningsRelationManager extends RelationManager
                         'left' => 'Левый проем',
                         'right' => 'Правый проем',
                         'center' => 'Центральный проем',
+                        'inner-left' => 'Входная группа левая',
+                        'inner-right' => 'Входная группа правая',
+                        'blind-glazing' => 'Глухое остекление',
+                        'triangle' => 'Треугольник',
                     ]),
                 Forms\Components\TextInput::make('doors')
                     ->required()
@@ -63,6 +67,10 @@ class OpeningsRelationManager extends RelationManager
                         'left' => 'Левый проем',
                         'right' => 'Правый проем',
                         'center' => 'Центральный проем',
+                        'inner-left' => 'Входная группа левая',
+                        'inner-right' => 'Входная группа правая',
+                        'blind-glazing' => 'Глухое остекление',
+                        'triangle' => 'Треугольник',
                     ]),
                 Tables\Columns\TextInputColumn::make('doors')
                     ->label('Створки')

@@ -20,6 +20,7 @@ class OrderController extends Controller
             'vendor_codes' => 'required',
             'additionals' => '',
             'comment' => '',
+            'delivery' => '',
         ]);
 
         $formFields['user_id'] = auth()->id();
@@ -30,6 +31,7 @@ class OrderController extends Controller
             'total_price' => $formFields['total_price'],
             'user_id' => $formFields['user_id'],
             'comment' => $formFields['comment'],
+            'delivery' => $formFields['delivery'],
         ));
 
         $openings = $formFields['openings'];
@@ -58,7 +60,6 @@ class OrderController extends Controller
 
         $vendorAmounts = $formFields['vendor_codes'];
         foreach ($vendorAmounts as $vendorAmount) {
-            Log::info('KHISRAV_INFO ' . $vendorAmount['id'] . ' -> ' . $vendorAmount['discount'] . '%');
             VendorAmount::create([
                 'order_id' => $order['id'],
                 'vendor_code_id' => $vendorAmount['id'],
