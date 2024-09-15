@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->boolean('is_checkable')->default(false);
-        });
+        if (!Schema::hasColumn('items', 'is_checkable')) {
+            Schema::table('items', function (Blueprint $table) {
+                $table->boolean('is_checkable')->default(false);
+            });
+        }
     }
 
     /**
