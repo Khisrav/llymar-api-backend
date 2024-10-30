@@ -14,4 +14,6 @@ php8.2 artisan config:cache
 
 php8.2 artisan route:cache
 
+php8.2 artisan storage:link
+
 echo "Done!"

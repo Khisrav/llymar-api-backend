@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\VendorCodeController;
@@ -68,3 +69,5 @@ Route::get('/pdf/{userID}/{orderID}', function (string $userID, string $orderID)
         'items' => $items,
     ]);
 });
+
+Route::get('/convert-image', [ImageController::class, 'convertImage']);
