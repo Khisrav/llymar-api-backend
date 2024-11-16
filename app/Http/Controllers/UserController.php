@@ -25,7 +25,8 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|max:255',
             'company' => '',
-            'phone' => 'required|max:255'
+            'phone' => 'required|max:255',
+            'address' => 'required|max:255',
         ]);
 
         $user->fill($validate);

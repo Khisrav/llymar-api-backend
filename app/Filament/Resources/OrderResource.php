@@ -50,14 +50,6 @@ class OrderResource extends Resource
                     ->searchable()
                     ->native(false)
                     ->label('ID клиента'),
-                Forms\Components\Select::make('material_type')
-                    ->required()
-                    ->label('Тип материала')
-                    ->options([
-                        'aluminium' => 'Алюминий',
-                        'polycarbonate' => 'Поликарбонат'
-                    ])
-                    ->native(false),
                 Forms\Components\Select::make('status')
                     ->required()
                     ->label('Статус')
@@ -95,14 +87,6 @@ class OrderResource extends Resource
                     ->wrap()
                     ->label('Пользователь')
                     ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\SelectColumn::make('material_type')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->options([
-                        'aluminium' => 'Алюминий',
-                        'polycarbonate' => 'Поликарбонат'
-                    ])
-                    ->label('Материал профиля'),
                 Tables\Columns\SelectColumn::make('status')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)

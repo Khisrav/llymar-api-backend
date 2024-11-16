@@ -13,6 +13,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\VendorCodeController;
 
@@ -71,3 +72,5 @@ Route::get('/pdf/{userID}/{orderID}', function (string $userID, string $orderID)
 });
 
 Route::get('/convert-image', [ImageController::class, 'convertImage']);
+
+Route::post('/webhook', [WebhookController::class, 'handle']);
