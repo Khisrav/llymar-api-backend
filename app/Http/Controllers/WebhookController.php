@@ -59,7 +59,6 @@ class WebhookController extends Controller
             $order = Order::where([
                 ['id', '=',substr($order_number, 2)],
                 ['status', '=', 'pending'],
-                ['document_id', '=', $decoded['documentId']],
                 ['total_price', '=', $decoded['amount']]
             ])->first();
             if ($order) {

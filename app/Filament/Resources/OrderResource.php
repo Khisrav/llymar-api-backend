@@ -55,6 +55,7 @@ class OrderResource extends Resource
                     ->label('Статус')
                     ->options([
                         'pending' => 'В обработке',
+                        'paid' => 'Оплачен',
                         'completed' => 'Завершен'
                     ])
                     ->native(false),
@@ -92,6 +93,7 @@ class OrderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->options([
                         'pending' => 'В обработке',
+                        'paid' => 'Оплачен',
                         'completed' => 'Завершен'
                     ])
                     ->selectablePlaceholder(false)
