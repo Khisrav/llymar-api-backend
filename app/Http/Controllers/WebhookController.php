@@ -58,9 +58,9 @@ class WebhookController extends Controller
             //set order status to paid
             $order = Order::where([
                 ['id', '=',substr($order_number, 2)],
-                ['status', '=', 'pending'],
                 ['total_price', '=', $decoded['amount']]
             ])->first();
+            
             if ($order) {
                 $order->status = 'paid';
                 $order->save();

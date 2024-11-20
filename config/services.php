@@ -33,6 +33,7 @@ return [
     
     'tochka' => [
         'api_client_id' => env('TOCHKA_API_CLIENT_ID'),
+        'api_jwt' => env('TOCHKA_API_JWT'),
         'api_url' => env('TOCHKA_API_URL'),
     ],
 

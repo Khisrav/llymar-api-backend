@@ -12,12 +12,14 @@ class InvoiceService
 {
     protected $apiClientID;
     protected $apiUrl;
+    protected $apiJWT;
     protected $customerCode;
     protected $accountId;
 
     public function __construct()
     {
         $this->apiClientID = config('services.tochka.api_client_id');
+        $this->apiJWT = config('services.tochka.api_jwt');
         $this->apiUrl = config('services.tochka.api_url');
         $this->customerCode = env('CUSTOMER_CODE');
         $this->accountId = env('ACCOUNT_ID');
@@ -31,7 +33,7 @@ class InvoiceService
         try {
             // Сформируем запрос для API
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiClientID,
+                'Authorization' => 'Bearer ' . $this->apiJWT,
                 'Content-Type' => 'application/json'
             ])->post("{$this->apiUrl}/invoice/v1.0/bills", [
                 'Data' => [
@@ -88,7 +90,7 @@ class InvoiceService
     {
         $url = "{$this->apiUrl}/invoice/v1.0/bills/{$this->customerCode}/{$documentId}/file";
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->apiClientID
+            'Authorization' => 'Bearer ' . $this->apiJWT
         ])->get($url, []);
 
         if (!$response->successful()) {
@@ -140,7 +142,7 @@ class InvoiceService
     {
         $url = "{$this->apiUrl}/invoice/v1.0/bills/{$this->customerCode}/{$documentId}/payment-status";
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->apiClientID
+            'Authorization' => 'Bearer ' . $this->apiJWT
         ])->get($url);
                     
         if ($response->successful()) {
