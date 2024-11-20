@@ -34,12 +34,12 @@ class OrderController extends Controller
             $this->createAdditionals($order, $formFields['additionals']);
             $this->createVendorAmounts($order, $formFields['vendor_codes']);
 
-            $invoice = $this->invoiceService->createInvoice($order);
+            $invoice = $this->invoiceService->createInvoice($order, $user);
             $this->handleInvoiceCreation($invoice, $order);
+            
+            Log::info('Заказ успешно создан: ' . $order->document_id . ' (Invoice: ' . $invoice['Data']['documentId'] . ')');
 
-            // $emailResponse = $this->invoiceService->sendInvoicePdf($order->document_id, $user->email);
             $emailResponse = $this->invoiceService->sendInvoicePdf($order->document_id, 'kh.khisrav2018@gmail.com');
-            // $this->handleEmailResponse($emailResponse);
 
             DB::commit();
 
