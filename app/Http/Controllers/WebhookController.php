@@ -55,10 +55,9 @@ class WebhookController extends Controller
         $order_number = $this->getOrderNumber($decoded['purpose']);
         
         if ($webhookType === 'incomingPayment' && $order_number) {
-            //set order status to paid
             $order = Order::where([
                 ['id', '=',substr($order_number, 2)],
-                ['total_price', '=', $decoded['amount']]
+                ['total_price', '=', $decoded['SidePayer']['amount']]
             ])->first();
             
             if ($order) {
